@@ -3,19 +3,17 @@ import "./style.css";
 import ContactForm from "./components/ContactForm/ContactForm";
 import Filter from "./components/Filter/Filter";
 import ContactList from "./components/ContactList/ContactList";
-import {
-  filterChange,
-  addContact,
-  removeContact,
-} from "./components/redux/contacts/contacts-actions";
+import { filterChange } from "./components/redux/contacts/contacts-actions";
+import * as operations from "./components/redux/contacts/contacts-operations";
 import { connect } from "react-redux";
 
 function App({
-  contacts,
   filter,
+  contacts,
   handleFilterChange,
   onAddContact,
   onRemoveContact,
+  fetchContacts,
 }) {
   const contactFilter = contacts.filter((contact) =>
     contact.name.toLowerCase().includes(filter.toLowerCase()),
@@ -24,6 +22,13 @@ function App({
   useEffect(() => {
     window.localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
+
+  console.log(contacts);
+
+  useEffect(() => {
+    fetchContacts();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className='container'>
@@ -37,14 +42,15 @@ function App({
 }
 
 const mapStateToProps = (state) => ({
-  contacts: state.contacts.items,
   filter: state.contacts.filter,
+  contacts: state.contacts.items,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   handleFilterChange: (event) => dispatch(filterChange(event.target.value)),
-  onAddContact: (name, number) => dispatch(addContact(name, number)),
-  onRemoveContact: (id) => dispatch(removeContact(id)),
+  onAddContact: (name, number) => dispatch(operations.addContact(name, number)),
+  onRemoveContact: (id) => dispatch(operations.removeContact(id)),
+  fetchContacts: () => dispatch(operations.fetchContacts()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
