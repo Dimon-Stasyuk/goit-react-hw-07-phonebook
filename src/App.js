@@ -7,23 +7,10 @@ import { filterChange } from "./components/redux/contacts/contacts-actions";
 import * as operations from "./components/redux/contacts/contacts-operations";
 import { connect } from "react-redux";
 
-function App({
-  filter,
-  contacts,
-  handleFilterChange,
-  onAddContact,
-  onRemoveContact,
-  fetchContacts,
-}) {
-  const contactFilter = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase()),
-  );
-
+function App({ contacts, fetchContacts }) {
   useEffect(() => {
     window.localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
-
-  console.log(contacts);
 
   useEffect(() => {
     fetchContacts();
@@ -33,10 +20,10 @@ function App({
   return (
     <div className='container'>
       <h1>Phoneboock</h1>
-      <ContactForm contacts={contacts} submit={onAddContact} />
+      <ContactForm />
       <h2>Contacts</h2>
-      <Filter value={filter} onChange={handleFilterChange} />
-      <ContactList contacts={contactFilter} removeContact={onRemoveContact} />
+      <Filter />
+      <ContactList />
     </div>
   );
 }
@@ -48,8 +35,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   handleFilterChange: (event) => dispatch(filterChange(event.target.value)),
-  onAddContact: (name, number) => dispatch(operations.addContact(name, number)),
-  onRemoveContact: (id) => dispatch(operations.removeContact(id)),
+
   fetchContacts: () => dispatch(operations.fetchContacts()),
 });
 
