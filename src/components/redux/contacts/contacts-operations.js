@@ -15,7 +15,7 @@ export const fetchContacts = () => async (dispatch) => {
   dispatch(fetchContactRequest());
 
   try {
-    const { data } = await axios.get("http://localhost:3004/contacts");
+    const { data } = await axios.get("http://localhost:4000/contacts");
 
     dispatch(fetchContactSuccess(data));
   } catch (error) {
@@ -31,7 +31,7 @@ export const addContact = (name, number) => (dispatch) => {
   dispatch(addContactRequest());
 
   axios
-    .post("http://localhost:3004/contacts", contact)
+    .post("http://localhost:4000/contacts", contact)
     .then(({ data }) => {
       console.log(data);
       dispatch(addContactSuccess(data));
@@ -43,7 +43,7 @@ export const removeContact = (id) => (dispatch) => {
   dispatch(removeContactRequest());
 
   axios
-    .delete(`http://localhost:3004/contacts/${id}`)
+    .delete(`http://localhost:4000/contacts/${id}`)
     .then(() => dispatch(removeContactSuccess(id)))
     .catch((error) => () => dispatch(removeContactError(error)));
 };
