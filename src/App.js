@@ -6,6 +6,10 @@ import ContactList from "./components/ContactList/ContactList";
 import { filterChange } from "./components/redux/contacts/contacts-actions";
 import * as operations from "./components/redux/contacts/contacts-operations";
 import { connect } from "react-redux";
+import {
+  getContacts,
+  getFilter,
+} from "./components/redux/contacts/contacts-selectors";
 
 function App({ contacts, fetchContacts }) {
   useEffect(() => {
@@ -29,8 +33,8 @@ function App({ contacts, fetchContacts }) {
 }
 
 const mapStateToProps = (state) => ({
-  filter: state.contacts.filter,
-  contacts: state.contacts.items,
+  filter: getFilter(state),
+  contacts: getContacts(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -2,14 +2,12 @@ import PropTypes from "prop-types";
 import "./ContactList.css";
 import { connect } from "react-redux";
 import { removeContact } from "../redux/contacts/contacts-operations";
+import { getVisiblesContacts } from "../redux/contacts/contacts-selectors";
 
-const ContactList = ({ contacts, filter, removeContact }) => {
-  const contactFilter = contacts.filter((contact) =>
-    contact.name.toLowerCase().includes(filter.toLowerCase()),
-  );
+const ContactList = ({ contacts, removeContact }) => {
   return (
     <ul>
-      {contactFilter.map(({ name, number, id }) => {
+      {contacts.map(({ name, number, id }) => {
         return (
           <li key={id}>
             <span className='name'> {name}:</span>
@@ -28,8 +26,7 @@ const ContactList = ({ contacts, filter, removeContact }) => {
 };
 
 const mapStateToProps = (state) => ({
-  contacts: state.contacts.items,
-  filter: state.contacts.filter,
+  contacts: getVisiblesContacts(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({

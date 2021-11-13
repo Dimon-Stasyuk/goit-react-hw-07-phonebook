@@ -47,5 +47,3 @@ export const removeContact = (id) => (dispatch) => {
     .then(() => dispatch(removeContactSuccess(id)))
     .catch((error) => () => dispatch(removeContactError(error)));
 };
-
-// export default { addContact, removeContact };
