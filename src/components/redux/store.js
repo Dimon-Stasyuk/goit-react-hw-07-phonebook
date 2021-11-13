@@ -11,18 +11,12 @@ import {
 
 import contactsReducer from "./contacts/contacts-reducers";
 
-const myMiddleware = (store) => (next) => (action) => {
-  console.log("Моя прослойка", action);
-  next(action);
-};
-
 const middleware = [
   ...getDefaultMiddleware({
     serializableCheck: {
       ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
   }),
-  myMiddleware,
   logger,
 ];
 
