@@ -1,25 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import {
-  addContactRequest,
-  addContactSuccess,
-  addContactError,
   removeContactError,
   removeContactRequest,
   removeContactSuccess,
 } from "./contacts-actions";
-
-// export const fetchContacts = () => async (dispatch) => {
-//   dispatch(fetchContactRequest());
-
-//   try {
-//     const { data } = await axios.get("http://localhost:4000/contacts");
-
-//     dispatch(fetchContactSuccess(data));
-//   } catch (error) {
-//     dispatch(fetchContactError(error));
-//   }
-// };
 
 export const fetchContacts = createAsyncThunk(
   "contacts/fetchContacts",
@@ -29,21 +14,32 @@ export const fetchContacts = createAsyncThunk(
   },
 );
 
-export const addContact = (name, number) => (dispatch) => {
-  const contact = {
-    name,
-    number,
-  };
-  dispatch(addContactRequest());
+// export const addContact = (name, number) => (dispatch) => {
+//   const contact = {
+//     name,
+//     number,
+//   };
+//   dispatch(addContactRequest());
 
-  axios
-    .post("http://localhost:4000/contacts", contact)
-    .then(({ data }) => {
-      console.log(data);
-      dispatch(addContactSuccess(data));
-    })
-    .catch((error) => addContactError(error));
-};
+//   axios
+//     .post("http://localhost:4000/contacts", contact)
+//     .then(({ data }) => {
+//       console.log(data);
+//       dispatch(addContactSuccess(data));
+//     })
+//     .catch((error) => addContactError(error));
+// };
+
+export const addContact = createAsyncThunk(
+  "contacts/addContact",
+  async (contact) => {
+    const { data } = await axios.post(
+      "http://localhost:4000/contacts",
+      contact,
+    );
+    return data;
+  },
+);
 
 export const removeContact = (id) => (dispatch) => {
   dispatch(removeContactRequest());
