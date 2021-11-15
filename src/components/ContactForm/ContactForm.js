@@ -21,7 +21,11 @@ function ContactForm({ contacts, addContact }) {
       alert(`${name} is already in contacts.`);
       return;
     }
-    addContact(name, number);
+    const contact = {
+      name,
+      number,
+    };
+    addContact(contact);
     reset();
   };
 
@@ -89,7 +93,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(ContactForm);
 ContactForm.propTypes = {
   contacts: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,
     }),
