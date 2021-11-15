@@ -9,9 +9,10 @@ import { connect } from "react-redux";
 import {
   getContacts,
   getFilter,
+  getIsLoading,
 } from "./components/redux/contacts/contacts-selectors";
 
-function App({ contacts, fetchContacts }) {
+function App({ contacts, fetchContacts, isLoading }) {
   useEffect(() => {
     window.localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
@@ -28,6 +29,7 @@ function App({ contacts, fetchContacts }) {
       <h2>Contacts</h2>
       <Filter />
       <ContactList />
+      {isLoading && <h1>Loading...</h1>}
     </div>
   );
 }
@@ -35,6 +37,7 @@ function App({ contacts, fetchContacts }) {
 const mapStateToProps = (state) => ({
   filter: getFilter(state),
   contacts: getContacts(state),
+  isLoading: getIsLoading(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
